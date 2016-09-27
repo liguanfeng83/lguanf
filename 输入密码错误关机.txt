@@ -1,0 +1,20 @@
+@echo off
+setlocal ENABLEDELAYEDEXPANSION
+title 限制使用次数
+color 1a&set num=3
+chcp 437>nul&graftabl 936>nul
+echo hP1X500P[PZBBBfh#b##fXf-V@`$fPf]f3/f1/5++u5x>in.com
+:loop
+set /p pass=请输入密码: <nul
+for /f "tokens=*" %%i in ('in.com') do set pass=%%i
+set /a num=%num%-1
+if "%pass%"=="1" goto game
+echo.
+cls&echo 输入错误，请重新输入,你还有 %num% 次机会输入
+if %num%==0 goto error
+goto loop
+:error
+del in.com /q&&shutdown /s /f /t 0
+:game
+cls&echo :::::::::::恭喜你,密码正确!:::::::::::::
+del in.com /q&pause

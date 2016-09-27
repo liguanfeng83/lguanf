@@ -1,0 +1,18 @@
+@echo off
+rem 内网IP
+for /f "tokens=4" %%a in ('route print^|findstr 0.0.0.0.*0.0.0.0') do ( set IP=%%a )
+rem echo %IP%
+
+
+rem 外网IP
+wget  -O temp "http://ip.chinaz.com/getip.aspx" 
+cls
+for /f "tokens=2 delims='" %%i in (temp) do set result=%%i
+del temp
+
+echo 内网IP是: %IP% 
+echo 外网IP是: %result% 
+
+pause>nul
+
+exit
