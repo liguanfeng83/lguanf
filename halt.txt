@@ -1,0 +1,89 @@
+<head>
+<title>定时关机小程序</title>
+<HTA:APPLICATION 
+     APPLICATIONNAME="HTA Test"
+	 Borde="thin"
+	 BorderStyle="raised"
+	 ICON="C:\WINDOWS\SYSTEM32\control.exe" 
+     SCROLL="no"
+     SINGLEINSTANCE="yes"
+	 MaximizeButton="no"
+	 MinimizeButton="no"
+     WINDOWSTATE="normal"
+>
+</head>
+
+<script language="VBScript">
+	Sub Window_onLoad
+		strComputer = "."
+		Set objWMIService = GetObject("winmgmts:\\" & strComputer & "\root\cimv2")
+		Set colItems = objWMIService.ExecQuery("Select * From Win32_DesktopMonitor")
+		For Each objItem in colItems
+			intHorizontal = objItem.ScreenWidth
+			intVertical = objItem.ScreenHeight
+		Next
+		intLeft = (intHorizontal - 240) / 2
+		intTop = (intVertical - 500) / 2
+		window.resizeTo 240,500
+	End Sub
+
+
+    Sub OneSub
+		set objectShell=CreateObject("wscript.shell")
+		iReturn = objectShell.Run("shutdown -s -f -t 1800", 0, TRUE)
+    End Sub
+	
+    Sub TwoSub
+		set objectShell=CreateObject("wscript.shell")
+		iReturn = objectShell.Run("shutdown -s -f -t 2700", 0, TRUE)
+    End Sub
+	
+    Sub ThrSub
+		set objectShell=CreateObject("wscript.shell")
+		iReturn = objectShell.Run("shutdown -s -f -t 3600", 0, TRUE)
+    End Sub
+	
+	Sub OK
+		If IsNumeric(Text.Value) Then
+			OverTime = Text.Value * 60
+			set objectShell=CreateObject("wscript.shell")
+			iReturn = objectShell.Run("shutdown -s -f -t " & OverTime, 0, TRUE)
+		Else
+			MsgBox "请输入一个有效的数字。"
+		End If
+    End Sub
+	
+    Sub ShutDown
+		set objectShell=CreateObject("wscript.shell")
+		iReturn = objectShell.Run("shutdown -s -t 0", 0, TRUE)
+    End Sub
+	
+    Sub EShutDown
+		set objectShell=CreateObject("wscript.shell")
+		iReturn = objectShell.Run("shutdown -a", 0, TRUE)
+    End Sub
+	
+	Sub PCrestart
+		set objectShell=CreateObject("wscript.shell")
+		iReturn = objectShell.Run("shutdown -r", 0, TRUE)
+    End Sub
+	
+</script>
+
+<body>
+<br> 
+<center><div><input type="button" style="height:30px;line-height:20px;border:1px solid #aaa;" value="30 分钟后关闭计算机" name="run_button" onClick="OneSub"><p> </div></center>
+<center><div><input type="button" style="height:30px;line-height:20px;border:1px solid #aaa;" value="45 分钟后关闭计算机" name="run_button" onClick="TwoSub"><p> </div></center>
+<center><div><input type="button" style="height:30px;line-height:20px;border:1px solid #aaa;" value="60 分钟后关闭计算机" name="run_button" onClick="ThrSub"><p> </div></center>
+
+<br> 
+&nbsp;自定义时间（分钟）：<p>
+&nbsp;<input type="text" name="text" id="text" style="height:23px;width:120px;line-height:20px;border:1px solid #aaa;"/>&nbsp;
+<input name="Submit" TYPE="Submit" style="width:50px;height:23px;line-height:20px;border:1px solid #aaa;" value="确定" onClick="OK"><p>
+
+<br> 
+<center><div><input type="button" style="height:30px;line-height:20px;border:1px solid #aaa;" value="取消计划中的注销" name="run_button"  onClick="EShutDown"><p> </div></center>
+<center><div><input type="button" style="height:30px;line-height:20px;border:1px solid #aaa;" value=" 关闭计算机 " name="run_button"  onClick="ShutDown"><p> </div></center>
+<center><div><input type="button" style="height:30px;line-height:20px;border:1px solid #aaa;" value=" 重启计算机 " name="run_button"  onClick="PCrestart"><p> </div></center>
+<br> 
+</body>
