@@ -1,0 +1,21 @@
+@echo off
+cd /d %~dp0
+if EXIST temp (cls & goto SY)
+:SY
+del temp
+rem 内网IP
+for /f "tokens=4" %%a in ('route print^|findstr 0.0.0.0.*0.0.0.0') do ( set IP=%%a )
+rem echo %IP%
+
+wget -O temp "http://ip.chinaz.com/getip.aspx" 
+cls
+for /f "tokens=2 delims='" %%i in (E:\\wwwroot\\temp) do set "result=%%i"
+echo.
+echo 详细信息 >"E:\\wwwroot\\upload\\ip.txt"
+echo ----------------------------- >>"E:\\wwwroot\\upload\\ip.txt"
+echo 当前用户: %username% >>"E:\\wwwroot\\upload\\ip.txt"
+echo 提取时间: %date:~0,10% %time:~0,8% >>"E:\\wwwroot\\upload\\ip.txt"
+echo 内网IP是: %IP% >>"E:\\wwwroot\\upload\\ip.txt"
+echo 外网IP是: %result% >>"E:\\wwwroot\\upload\\ip.txt"
+
+exit
